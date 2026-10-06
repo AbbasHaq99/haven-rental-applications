@@ -1,0 +1,7 @@
+@model ApplicationPage
+<h2>Applicant information</h2><p class="muted">Tell us a little about yourself and where you live today.</p>
+@if (Model.Editable && Model.Section != 2) {
+<div class="field"><label asp-for="Information.Name"></label><input asp-for="Information.Name" autocomplete="name" /><span asp-validation-for="Information.Name"></span></div>
+<div class="field-row"><div class="field"><label asp-for="Information.Phone"></label><input asp-for="Information.Phone" autocomplete="tel" /><span asp-validation-for="Information.Phone"></span></div><div class="field"><label asp-for="Information.Email"></label><input asp-for="Information.Email" autocomplete="email" /><span asp-validation-for="Information.Email"></span></div></div>
+<div class="field"><label asp-for="Information.CurrentAddress"></label><input asp-for="Information.CurrentAddress" autocomplete="street-address" /><span asp-validation-for="Information.CurrentAddress"></span></div>
+} else { <dl class="details"><div><dt>Full name</dt><dd>@Model.Information.Name</dd></div><div><dt>Phone</dt><dd>@Model.Information.Phone</dd></div><div><dt>Email</dt><dd>@Model.Information.Email</dd></div><div><dt>Current address</dt><dd>@Model.Information.CurrentAddress</dd></div></dl> }

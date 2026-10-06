@@ -1,0 +1,4 @@
+@model DeleteInput
+<h2>Remove @Model.Kind?</h2><p class="muted">@Model.Label</p><p>This removes the record permanently. Records with application or lease history cannot be removed.</p>
+<form asp-action="Delete" method="post" data-modal-form><input asp-for="Id" type="hidden" /><input asp-for="Kind" type="hidden" /><input asp-for="Version" type="hidden" /><input asp-for="Label" type="hidden" />
+<div asp-validation-summary="All" class="validation-summary"></div><div class="modal-actions"><button type="button" class="button secondary" data-close-modal>Cancel</button><button class="button destructive">Remove @Model.Kind</button></div></form>

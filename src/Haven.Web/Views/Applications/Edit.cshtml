@@ -1,0 +1,4 @@
+@model ApplicationPage
+@{ ViewData["Title"] = $"Application #{Model.Id:D5}"; }
+<a class="back-link" asp-action="Index">← All applications</a>
+<div data-refresh-root data-refresh-url="@Url.Action("Content", new { id=Model.Id, section=Model.Section })"><partial name="_ApplicationContent" model="Model" /></div>

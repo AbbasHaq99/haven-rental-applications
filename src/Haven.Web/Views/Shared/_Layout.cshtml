@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>@ViewData["Title"] · Haven</title>
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<script src="~/js/site.js" asp-append-version="true" defer></script>
+</head>
+<body>
+<header class="site-header"><a class="brand" asp-controller="Properties" asp-action="Index"><span class="brand-icon">H</span> haven<span class="brand-sub">PROPERTY GROUP</span></a>
+@if (User.Identity?.IsAuthenticated == true) {
+<nav aria-label="Main navigation"><a asp-controller="Properties" asp-action="Index">@(User.IsInRole(Roles.Manager) ? "Properties & units" : "Find a home")</a><a asp-controller="Applications" asp-action="Index">Applications</a></nav>
+<div class="account"><span class="role">@(User.IsInRole(Roles.Manager) ? "Property manager" : "Applicant")</span><form asp-controller="Account" asp-action="Logout" method="post"><button class="text-button">Sign out</button></form></div>
+} else { <nav><a asp-controller="Account" asp-action="Login">Sign in</a><a class="button small" asp-controller="Account" asp-action="Register">Create account</a></nav> }
+</header>
+<main class="container">
+@if (TempData["Error"] is string error) { <div class="notice error" role="alert">@error</div> }
+@if (TempData["Success"] is string success) { <div class="notice success" role="status">@success</div> }
+@RenderBody()
+</main>
+<footer class="site-footer"><span>haven / A place to call yours.</span><span>Rental application portal</span></footer>
+<dialog id="modal" aria-label="Edit dialog"><div class="modal-top"><span>HAVEN PROPERTY GROUP</span><button type="button" class="icon-button" data-close-modal aria-label="Close dialog">×</button></div><div id="modal-content"></div></dialog>
+<div id="client-message" class="client-message" role="alert" hidden></div>
+@await RenderSectionAsync("Scripts", required: false)
+</body></html>

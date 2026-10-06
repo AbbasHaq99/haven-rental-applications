@@ -1,0 +1,7 @@
+@model ReviewInput
+<h2>Review application</h2><p class="muted">Choose an outcome. Approval issues a twelve-month lease.</p>
+<form asp-action="Review" method="post" data-modal-form><input asp-for="ApplicationId" type="hidden" /><input asp-for="Version" type="hidden" /><div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="field"><label asp-for="Outcome"></label><select asp-for="Outcome" asp-items="Html.GetEnumSelectList<ReviewOutcome>()"><option value="">Choose an outcome</option></select><span asp-validation-for="Outcome"></span></div>
+<div class="field"><label asp-for="StartDate"></label><input asp-for="StartDate" /><span asp-validation-for="StartDate"></span><small>Required for approval. The term ends twelve months after this date.</small></div>
+<div class="field"><label asp-for="Comment"></label><textarea asp-for="Comment" rows="4"></textarea><span asp-validation-for="Comment"></span><small>Required for Return and Deny. Feedback is visible to the applicant.</small></div>
+<div class="modal-actions"><button type="button" class="button secondary" data-close-modal>Cancel</button><button class="button">Complete review</button></div></form>

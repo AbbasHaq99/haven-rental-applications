@@ -1,0 +1,15 @@
+@model CatalogPage
+<div class="catalog-count">@Model.Properties.Sum(p => p.Units.Count) @(Model.Manager ? "units in your portfolio" : "available apartments") <span>•</span> @Model.Properties.Count properties</div>
+@if (Model.Properties.Count == 0) { <div class="empty"><h2>No properties yet</h2><p>Your portfolio will appear here.</p></div> }
+@foreach (var p in Model.Properties) {
+<section class="property-card"><div class="property-header"><div class="property-mark">⌂</div><div><h2>@p.Name</h2><p class="muted">@p.Address</p></div>
+@if (Model.Manager) { <div class="actions"><button class="button secondary small" data-modal-url="@Url.Action("Unit", new { propertyId=p.Id })">＋ Add unit</button><button class="text-button" data-modal-url="@Url.Action("Property", new { id=p.Id })">Edit property</button><button class="text-button danger" data-modal-url="@Url.Action("Delete", new { kind="property", id=p.Id })">Remove</button></div> }</div>
+<div class="unit-grid">
+@foreach (var u in p.Units) {
+<article class="unit-card"><div class="unit-top"><span class="unit-type">@u.Type @if (!u.TypeActive) { <small>(inactive type)</small> }</span><span class="badge @(u.Available ? "available" : "leased")">@(u.Available ? "Available" : "Leased")</span></div>
+<h3>Unit @u.Number</h3><div class="rent">@u.MonthlyRent.ToString("C0")<span> / month</span></div><p class="muted">@(u.Bedrooms == 0 ? "Studio" : $"{u.Bedrooms} bedroom{(u.Bedrooms == 1 ? "" : "s")}") · 12-month lease</p>
+@if (Model.Manager) { <div class="unit-footer"><button class="text-button" data-modal-url="@Url.Action("Unit", new { id=u.Id })">Edit unit ↗</button><button class="text-button danger" data-modal-url="@Url.Action("Delete", new { kind="unit", id=u.Id })">Remove</button></div> }
+else { <form asp-controller="Applications" asp-action="Create" method="post"><input type="hidden" name="unitId" value="@u.Id" /><button class="button secondary full">Start application <span>→</span></button></form> }
+</article> }
+@if (p.Units.Count == 0) { <p class="empty-inline">@(Model.Manager ? "No units yet. Add your first unit above." : "No apartments available at this property today.")</p> }
+</div></section> }

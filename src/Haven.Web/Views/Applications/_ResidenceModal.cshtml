@@ -1,0 +1,7 @@
+@model ResidenceInput
+<h2>@(Model.Id == 0 ? "Add a residence" : "Edit residence")</h2><p class="muted">A previous address and someone we can contact.</p>
+<form asp-action="Residence" method="post" data-modal-form><input asp-for="Id" type="hidden" /><input asp-for="ApplicationId" type="hidden" /><input asp-for="Version" type="hidden" /><div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="field"><label asp-for="Address"></label><input asp-for="Address" /><span asp-validation-for="Address"></span></div>
+<div class="field"><label asp-for="LandlordName"></label><input asp-for="LandlordName" /><span asp-validation-for="LandlordName"></span></div><div class="field"><label asp-for="LandlordPhone"></label><input asp-for="LandlordPhone" /><span asp-validation-for="LandlordPhone"></span></div>
+<div class="field-row"><div class="field"><label asp-for="MoveIn"></label><input asp-for="MoveIn" /><span asp-validation-for="MoveIn"></span></div><div class="field"><label asp-for="MoveOut"></label><input asp-for="MoveOut" /><span asp-validation-for="MoveOut"></span></div></div>
+<div class="modal-actions"><button type="button" class="button secondary" data-close-modal>Cancel</button><button class="button">Save residence</button></div></form>

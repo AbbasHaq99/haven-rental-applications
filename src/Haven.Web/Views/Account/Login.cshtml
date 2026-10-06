@@ -1,0 +1,5 @@
+@model LoginInput
+@{ ViewData["Title"] = "Sign in"; }
+<div class="auth-layout"><section class="auth-story"><p class="eyebrow">WELCOME HOME</p><h1>A little closer<br />to your next home.</h1><p>Find your space. Start your application.<br />We'll take it from there.</p><div class="house-art" aria-hidden="true"><div class="house-roof"></div><div class="house-body"><span></span><span></span><span></span><span></span></div></div></section>
+<section class="panel auth-form"><h2>Welcome back</h2><p class="muted">Sign in to your Haven account.</p><form method="post"><input asp-for="ReturnUrl" type="hidden" /><div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="field"><label asp-for="Email"></label><input asp-for="Email" autocomplete="username" /><span asp-validation-for="Email"></span></div><div class="field"><label asp-for="Password"></label><input asp-for="Password" autocomplete="current-password" /><span asp-validation-for="Password"></span></div><button class="button full">Sign in →</button></form><p class="hint">New to Haven? <a asp-action="Register">Create an account</a></p></section></div>

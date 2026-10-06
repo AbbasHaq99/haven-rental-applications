@@ -1,0 +1,5 @@
+@model ErrorViewModel
+@{ ViewData["Title"] = "Something went wrong"; }
+<section class="empty"><h1>We couldn't complete that request.</h1><p>Please reload the page and try again.</p>
+@if (Model.ShowRequestId) { <p class="hint">Reference: @Model.RequestId</p> }
+<a class="button" asp-controller="Properties" asp-action="Index">Return to properties</a></section>

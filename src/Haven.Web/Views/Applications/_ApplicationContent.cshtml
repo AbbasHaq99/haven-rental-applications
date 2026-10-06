@@ -1,0 +1,24 @@
+@model ApplicationPage
+<section class="page-heading"><div><p class="eyebrow">APPLICATION #@Model.Id.ToString("D5")</p><h1>@Model.UnitLabel</h1><p class="muted">@Model.MonthlyRent.ToString("C0") / month · Twelve-month lease</p></div><span class="badge large @Model.Status.ToString().ToLowerInvariant()">@Model.Status</span></section>
+@if (Model.Lease != null) { <div class="notice success"><strong>Your lease has been issued.</strong> @Model.Lease.StartDate.ToString("MMM d, yyyy") – @Model.Lease.EndDate.AddDays(-1).ToString("MMM d, yyyy") · @Model.Lease.MonthlyRent.ToString("C0") / month</div> }
+@if (Model.Status == ApplicationStatus.Returned && !User.IsInRole(Roles.Manager)) { <div class="notice">Your application was returned. Update your information and resubmit. <span class="muted">See the reviewer feedback below.</span></div> }
+<nav class="steps" aria-label="Application sections">
+@for (int i=0; i<3; i++) { <a class="@(Model.Section == i ? "active" : "")" asp-action="Edit" asp-route-id="@Model.Id" asp-route-section="@i" aria-current="@(Model.Section == i ? "step" : null)"><span>@(i+1)</span>@(i==0 ? "Applicant information" : i==1 ? "Residence history" : "Summary")</a> }
+</nav>
+<div class="application-layout"><section class="panel application-form"><form asp-action="Edit" method="post">
+<input asp-for="Id" type="hidden" /><input asp-for="Version" type="hidden" /><input asp-for="Section" type="hidden" />
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+@if (Model.Section == 0) { <partial name="_Information" model="Model" /> }
+else if (Model.Section == 1) { <partial name="_History" model="Model" /> }
+else { <partial name="_Summary" model="Model" /> }
+@if (Model.Editable) { <div class="form-actions">
+@if (Model.Section > 0) { <button name="command" value="back" class="button secondary" formnovalidate>← Back</button> } else { <span></span> }
+@if (Model.Section < 2) { <button name="command" value="continue" class="button">Save & continue →</button> }
+else { <button name="command" value="submit" class="button" disabled="@(!Model.InformationSaved || !Model.HistorySaved)">Submit application →</button> }
+</div> }
+</form></section><aside><div class="sidebar-card"><p class="eyebrow">APPLICATION CHECKLIST</p><div class="checklist"><p><span class="@(Model.InformationSaved ? "done" : "")">@(Model.InformationSaved ? "✓" : "○")</span> Applicant information</p><p><span class="@(Model.HistorySaved ? "done" : "")">@(Model.HistorySaved ? "✓" : "○")</span> Residence history</p><p><span class="@(Model.Status is ApplicationStatus.Submitted or ApplicationStatus.Approved or ApplicationStatus.Denied ? "done" : "")">@(Model.Status is ApplicationStatus.Submitted or ApplicationStatus.Approved or ApplicationStatus.Denied ? "✓" : "○")</span> Review & submit</p></div><hr /><p class="hint">@(Model.Editable ? "Your progress is saved when you continue. Review all details before submitting." : "This application is read-only in its current status.")</p>
+@if (User.IsInRole(Roles.Manager) && Model.Status == ApplicationStatus.Submitted) { <button type="button" class="button full" data-modal-url="@Url.Action("Review", new { applicationId=Model.Id })">Review application</button> }
+@if (!User.IsInRole(Roles.Manager) && ApplicationRules.Withdrawable(Model.Status)) { <form asp-action="Withdraw" method="post" data-confirm="Withdraw this application? This action cannot be reversed."><input type="hidden" name="id" value="@Model.Id" /><input type="hidden" name="version" value="@Model.Version" /><button class="text-button danger">Withdraw application</button></form> }
+</div></aside></div>
+@if (User.IsInRole(Roles.Manager)) { <section class="panel history-panel"><h2>Application history</h2><div class="timeline">@foreach (var e in Model.Events) { <div class="timeline-event"><span class="timeline-dot"></span><div><strong>@e.ToStatus @if (e.Outcome != null) { <span>· @e.Outcome</span> }</strong><p class="muted">@e.Actor.FullName · <time datetime="@e.At.ToString("o")">@e.At.ToString("MMM d, yyyy HH:mm 'UTC'")</time></p>@if (!string.IsNullOrWhiteSpace(e.Comment)) { <p class="comment">@e.Comment</p> }</div></div> }</div></section> }
+@if (!User.IsInRole(Roles.Manager)) { <partial name="_Feedback" model="Model" /> }

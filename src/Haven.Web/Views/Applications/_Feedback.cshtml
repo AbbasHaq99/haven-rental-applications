@@ -1,0 +1,2 @@
+@model ApplicationPage
+@if (Model.Feedback.Count > 0) { <section class="panel history-panel"><h2>Reviewer feedback</h2>@foreach (var f in Model.Feedback) { <div class="feedback"><strong>@f.Outcome</strong><span class="muted"> · @f.At.ToString("MMM d, yyyy")</span><p class="comment">@f.Comment</p></div> }</section> }

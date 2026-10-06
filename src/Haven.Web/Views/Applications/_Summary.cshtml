@@ -1,0 +1,4 @@
+@model ApplicationPage
+<h2>@(Model.Editable ? "Review your application" : "Application summary")</h2><p class="muted">@(Model.Editable ? "Check your saved information before sending it to the property team." : "Your saved applicant details and residence history.")</p>
+@if (!Model.InformationSaved || !Model.HistorySaved) { <div class="notice error">Save both sections to enable submission. @if (!Model.InformationSaved) { <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-section="0">Complete applicant information.</a> } @if (!Model.HistorySaved) { <a asp-action="Edit" asp-route-id="@Model.Id" asp-route-section="1">Complete residence history.</a> }</div> }
+<div class="summary-section"><partial name="_Information" model="Model" /></div><div class="summary-section"><partial name="_History" model="Model" /></div>

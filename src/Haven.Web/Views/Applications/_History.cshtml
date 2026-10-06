@@ -1,0 +1,6 @@
+@model ApplicationPage
+<div class="section-heading"><div><h2>Residence history</h2><p class="muted">Add at least one prior residence and landlord contact.</p></div>
+@if (Model.Editable && Model.Section != 2) { <button type="button" class="button secondary small" data-modal-url="@Url.Action("Residence", new { applicationId=Model.Id })">＋ Add residence</button> }</div>
+@if (Model.Residences.Count == 0) { <div class="empty"><h3>No residences added</h3><p>Use “Add residence” to provide your rental history.</p></div> }
+@foreach (var r in Model.Residences) { <article class="residence-card"><h3>@r.Address</h3><p class="muted">@r.MoveIn?.ToString("MMM d, yyyy") – @r.MoveOut?.ToString("MMM d, yyyy")</p><p>Landlord: @r.LandlordName <span class="muted">· @r.LandlordPhone</span></p>
+@if (Model.Editable && Model.Section != 2) { <div class="actions"><button type="button" class="text-button" data-modal-url="@Url.Action("Residence", new { applicationId=Model.Id, id=r.Id })">Edit</button><button type="button" class="text-button danger" data-modal-url="@Url.Action("RemoveResidence", new { applicationId=Model.Id, id=r.Id })">Remove</button></div> }</article> }

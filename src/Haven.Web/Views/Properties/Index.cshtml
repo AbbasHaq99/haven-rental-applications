@@ -1,0 +1,5 @@
+@model CatalogPage
+@{ ViewData["Title"] = Model.Manager ? "Properties & units" : "Find a home"; }
+<section class="page-heading"><div><p class="eyebrow">@(Model.Manager ? "PORTFOLIO" : "YOUR NEXT CHAPTER")</p><h1>@ViewData["Title"]</h1><p class="muted">@(Model.Manager ? "Manage your buildings, keep units up to date, and make room for what's next." : "Explore available apartments and start your application, all in one place.")</p></div>
+@if (Model.Manager) { <button class="button" data-modal-url="@Url.Action("Property")">＋ Add property</button> }</section>
+<div data-refresh-root data-refresh-url="@Url.Action("Catalog")"><partial name="_Catalog" model="Model" /></div>

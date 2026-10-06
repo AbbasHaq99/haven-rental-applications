@@ -1,0 +1,8 @@
+@model PropertyInput
+<h2>@(Model.Id == 0 ? "Add a property" : "Edit property")</h2><p class="muted">The details applicants see when finding their home.</p>
+<form asp-action="Property" method="post" data-modal-form>
+<input asp-for="Id" type="hidden" /><input asp-for="Version" type="hidden" />
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="field"><label asp-for="Name"></label><input asp-for="Name" /><span asp-validation-for="Name"></span></div>
+<div class="field"><label asp-for="Address"></label><input asp-for="Address" /><span asp-validation-for="Address"></span></div>
+<div class="modal-actions"><button type="button" class="button secondary" data-close-modal>Cancel</button><button class="button">Save property</button></div></form>

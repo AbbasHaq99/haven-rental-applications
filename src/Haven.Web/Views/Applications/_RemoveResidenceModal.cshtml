@@ -1,0 +1,4 @@
+@model ResidenceInput
+<h2>Remove residence?</h2><p>@Model.Address</p><p class="muted">You will need to save your residence history again after this change.</p>
+<form asp-action="RemoveResidence" method="post" data-modal-form><input asp-for="Id" type="hidden" /><input asp-for="ApplicationId" type="hidden" /><input asp-for="Version" type="hidden" /><div asp-validation-summary="All" class="validation-summary"></div>
+<div class="modal-actions"><button type="button" class="button secondary" data-close-modal>Cancel</button><button class="button destructive">Remove residence</button></div></form>

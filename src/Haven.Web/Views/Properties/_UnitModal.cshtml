@@ -1,0 +1,9 @@
+@model UnitInput
+<h2>@(Model.Id == 0 ? "Add a unit" : "Edit unit")</h2><p class="muted">Keep availability and apartment details current.</p>
+<form asp-action="Unit" method="post" data-modal-form><input asp-for="Id" type="hidden" /><input asp-for="PropertyId" type="hidden" /><input asp-for="Version" type="hidden" />
+<div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+<div class="field"><label asp-for="Number"></label><input asp-for="Number" /><span asp-validation-for="Number"></span></div>
+<div class="field-row"><div class="field"><label asp-for="Bedrooms"></label><input asp-for="Bedrooms" min="0" max="20" /><span asp-validation-for="Bedrooms"></span></div><div class="field"><label asp-for="MonthlyRent"></label><input asp-for="MonthlyRent" type="number" step="0.01" min="0.01" /><span asp-validation-for="MonthlyRent"></span></div></div>
+<div class="field"><label asp-for="UnitTypeId"></label><select asp-for="UnitTypeId" asp-items="Model.Types"><option value="">Choose a type</option></select><span asp-validation-for="UnitTypeId"></span></div>
+<p class="hint">An inactive type can be retained only on the unit that already uses it.</p>
+<div class="modal-actions"><button type="button" class="button secondary" data-close-modal>Cancel</button><button class="button">Save unit</button></div></form>
